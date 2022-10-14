@@ -1,0 +1,152 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Hotel Booking API",
+        "contact": {
+            "email": "saradab@mindfiresolutions.com"
+        }
+    },
+    "schemes": ["http"],
+    "host": "http://localhost:3000",
+    "basePath": "/api",
+    "paths" : {
+        "/v1/customer/sign-up" : {
+            "post" : {
+                "summary" : "Customer Sign Up",
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "firstName": "Sarada",
+                        "lastName": "Prasad",
+                        "email": "sarada12ru@gmail.com",
+                        "mobile": "7008920316",
+                        "password": "sarada.pb"
+                    }
+                ],
+                "schema": {
+                    
+                },
+                "responses": {
+                    "200": {
+                        "description": "Signed Up Successfully !",
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/signUpandSignInResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/customer/sign-in" : {
+            "post" : {
+                "summary" : "Customer Sign In",
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "email": "sarada12ru@gmail.com",
+                        "password": "sarada.pb"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Signed In Successfully !",
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/signUpandSignInResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            }
+        }
+    }, 
+    "definitions": {
+        "signUpandSignInResponse": {
+            "type": "object",
+            "properties": {
+                "success": {
+                     "type": "boolean"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "InvalidResponse": {
+            "type": "object",
+            "properties": {
+                "success": {
+                    "type": "boolean"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+
+        }
+    }
+}

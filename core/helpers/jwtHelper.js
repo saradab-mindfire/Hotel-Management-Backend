@@ -1,30 +1,40 @@
 const { verifyJWT } = require('./authHelper');
+const { getCustomerDetailsById } = require('./../../src/v1/customer/customer.dao');
+const { getAdminUserDetailsById } = require('./../../src/v1/admin-user/admin-user.dao');
+const { getHotelUserDetailsById } = require('./../../src/v1/hotel-user/hotel-user.dao');
 
-const verifyUserAuth = async ( req, res, next ) => {
+const verifyCustomerAuth = async ( req, res, next ) => {
     let authToken = getHeaders( req );
-    userObj = await verifyJWT( authToken );
-    if( userObj ) {
-        let latestUserObj = userObj;
-        // latestUserObj = await getOneUser( { _id: userObj._id } );
-        req.userObj = latestUserObj;
+    let customerObj = await verifyJWT( authToken );
+    if( customerObj ) {
+        let latestCustomerObj = await getCustomerDetailsById( customerObj._id );
+        req.customerObj = latestCustomerObj;
         next();
     }
     else {
-        res.status(401).json( { success: false, message: "Unauthorized!" } )
+        res.status(401).json( { success: false, message: "Session Expired !" } )
     }
 }
 
 const verifyAdminAuth = async ( req, res, next ) => {
     let authToken = getHeaders( req );
-    adminObj = await verifyJWT( authToken );
+    let adminObj = await verifyJWT( authToken );
     if( adminObj ) {
-        let latestAdminObj = adminObj;
-        // latestAdminObj = await getOneStaff( { id: adminObj._id } );
-        // if( latestAdminObj.status == 2 || latestAdminObj.status == 3 ) {
-        //     res.status(500).json( { success: false, message: "Session Expired !" } )   
-        //     return;
-        // }
+        let latestAdminObj = await getAdminUserDetailsById( adminObj._id );
         req.adminObj = latestAdminObj;
+        next();
+    }
+    else {
+        res.status(500).json( { success: false, message: "Session Expired !" } )
+    }
+}
+
+const verifyHotelAuth = async ( req, res, next ) => {
+    let authToken = getHeaders( req );
+    let hotelUserObj = await verifyJWT( authToken );
+    if( hotelUserObj ) {
+        let latestHotelObj = await getHotelUserDetailsById( hotelUserObj._id );
+        req.hotelUserObj = latestHotelObj;
         next();
     }
     else {
@@ -38,6 +48,7 @@ const getHeaders = ( req ) => {
 }
 
 module.exports = {
-    verifyUserAuth,
-    verifyAdminAuth
+    verifyCustomerAuth,
+    verifyAdminAuth,
+    verifyHotelAuth
 }

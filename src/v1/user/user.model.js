@@ -11,29 +11,20 @@ const UserSchema = new mongoose.Schema(
         },
         firstName: {
             type: String,
-            required: [true, "The First Name is Empty"],
-            trim: true,
-            lowercase: true,
-            minlength: [3, "Last Name is too Short"],
-            maxlength: [50, "Last Name Exceeds Maximum Length"]
+            required: true,
         },
         lastName: {
             type: String,
-            required: [true, "The Last Name is Empty"],
-            trim: true,
-            lowercase: true,
-            minlength: [3, "Last Name is too Short"],
-            maxlength: [50, "Last Name Exceeds Maximum Length"]
+            required: true,
         },
         email: {
             type: String,
-            required: [true, "Email field is Empty"],
             unique: true,
             lowercase: true
         },
         mobile: {
             type: String,
-            required: [true, "Mobile No. is Required"],
+            required: true,
             unique: true
         },
         salt: {
@@ -42,9 +33,7 @@ const UserSchema = new mongoose.Schema(
         },
         password: {
             type: String,
-            required: true,
-            minlength: [6, "Password is too Short"],
-            maxlength: [16, "Password Exceeds Maximum Length"]
+            required: true
         },
         emailVerified: {
             type: Boolean,
