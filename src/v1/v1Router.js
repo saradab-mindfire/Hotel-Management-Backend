@@ -13,4 +13,10 @@ router.use( '/hotel-user', hotelUser );
 const hotel = require('./hotel/hotel.route');
 router.use( '/hotel', hotel );
 
+const roomType = require('./room-type/room-types.route');
+router.use( '/room-type', roomType );
+
+const room = require('./room/room.route');
+router.use( '/room', room );
+
 module.exports = router;

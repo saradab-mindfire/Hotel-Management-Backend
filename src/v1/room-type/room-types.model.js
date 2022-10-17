@@ -21,9 +21,24 @@ const RoomTypesSchema = new mongoose.Schema(
         additionalDetails: {
             type: Object,
             required: false
+        },
+        isActive: {
+            type: Boolean,
+            default: true
+        },
+        createdBy: {
+            type: ObjectId,
+            ref: 'Hotel',
+            required: true
         }
     },
-    { collection: "RoomTypes" }
+    { 
+        collection: "RoomTypes",
+        timestamps: {
+            createdAt: 'created_at',
+            updatedAt: 'updated_at'
+        }
+    }
 );
 
 module.exports = mongoose.model("RoomType", RoomTypesSchema);
