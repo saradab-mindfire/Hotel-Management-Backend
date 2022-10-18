@@ -19,4 +19,10 @@ router.use( '/room-type', roomType );
 const room = require('./room/room.route');
 router.use( '/room', room );
 
+const bookings = require('./bookings/bookings.route');
+router.use( '/bookings', bookings );
+
+const notifications = require('./notifications/notifications.route');
+router.use( '/notifications', notifications );
+
 module.exports = router;

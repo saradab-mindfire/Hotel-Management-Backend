@@ -24,7 +24,7 @@ const getHotelUserDetails = async ( hotelUserClauses ) => {
     return HotelUser.findOne( hotelUserClauses ).populate('userId');
 }
 
-const getAllHotelUsers = async ( hotelUserClauses ) => {
+const getHotelUsers = async ( hotelUserClauses ) => {
     return HotelUser.find( hotelUserClauses );
 }
 
@@ -34,6 +34,6 @@ module.exports = {
     disableHotelUser,
     getHotelUserDetailsById,
     getHotelUserDetails,
-    getAllHotelUsers,
+    getHotelUsers,
     updateHotelUserById
 }
