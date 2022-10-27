@@ -25,4 +25,7 @@ router.use( '/bookings', bookings );
 const notifications = require('./notifications/notifications.route');
 router.use( '/notifications', notifications );
 
+const common = require('./common/common.route');
+router.use( '/', common );
+
 module.exports = router;

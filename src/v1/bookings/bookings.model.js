@@ -60,9 +60,37 @@ const BookingSchema = new mongoose.Schema(
             type: String,
             enum: [ 'booked', 'cancelled' ],
             default: 'booked'
+        },
+        cancelledBy: {
+            type: ObjectId
         }
     },
-    { collection: "Bookings" }
+    { 
+        collection: "Bookings",
+         
+    }
 );
+
+BookingSchema.virtual( 'cancelledByHotelUser', {
+    ref: 'HotelUser',
+    localField: 'cancelledBy',
+    foreignField: '_id',
+    justOne: true
+} )
+
+BookingSchema.virtual( 'cancelledByAdmin', {
+    ref: 'AdminUser',
+    localField: 'cancelledBy',
+    foreignField: '_id',
+    justOne: true
+} )
+
+BookingSchema.virtual( 'cancelledByCustomer', {
+    ref: 'Customers',
+    localField: 'cancelledBy',
+    foreignField: '_id',
+    justOne: true
+} )
+
 
 module.exports = mongoose.model("Booking", BookingSchema);

@@ -8,7 +8,8 @@ const swaggerDocument = require('./swagger.json');
 const customCss = fs.readFileSync((process.cwd()+"/swagger.css"), 'utf8');
 
 const app = express();
-
+const expressGraphQL = require('express-graphql').graphqlHTTP;
+const {schema} = require('./core/graphql/index');
 // DB Connection
 require('./core/db/dbConnection');
 
@@ -17,6 +18,11 @@ app.use( cors() );
 
 const router = require('./router');
 app.use( '/api', router );
+
+app.use( '/graphql', expressGraphQL({
+    schema,
+    graphiql: true
+}))
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {customCss}));
 

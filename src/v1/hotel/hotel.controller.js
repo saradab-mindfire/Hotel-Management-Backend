@@ -81,9 +81,25 @@ const getHotelDetails = async( req, res ) => {
     }
 }
 
+const filterHotel = async ( req, res ) => {
+    
+}
+
+const filterHotelBySearchString = ( req, res ) => {
+    try {
+        const { roomType, searchStr, minPrice, maxPrice } = req.query;
+
+
+    }
+    catch( err ) {
+        errorResponse( res, err.message );
+    }
+}
+
 module.exports = {
     createHotel,
     updateHotel,
     updateHotelStatus,
-    getHotelDetails
+    getHotelDetails,
+    filterHotel
 }

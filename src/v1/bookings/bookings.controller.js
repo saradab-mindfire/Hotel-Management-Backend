@@ -1,4 +1,4 @@
-const { createBooking, getAllBookingCount } = require('./bookings.dao');
+const { createBooking, getAllBookingCount, getBookingById, updateBookingById, getBookingsByClause, getBookingByClause } = require('./bookings.dao');
 const { errorResponse, successResponse } = require('./../../../core/helpers/responseHandler');
 const { notifyOnBooking } = require('./../notifications/notifications.service');
 const { getAvailability, getHotelRoomDetails } = require('./bookings.service');
@@ -48,7 +48,85 @@ const checkAvailability = async( req, res ) => {
     }
 }
 
+const cancelBooking = async( req, res ) => {
+    try {
+        const { bookingId } = req.params;
+        
+        const bookingDetails = await getBookingByClause( { _id: bookingId } );
+        if( !bookingDetails ) {
+            return errorResponse( res, "Failed to cancel booking !" );
+        }
+        
+        let cancelledBy;   
+        if( req.customerObj ) {
+            cancelledBy = req.customerObj._id;
+        }
+        else if( req.adminObj ) {
+            cancelledBy = req.adminObj._id;
+        }
+        else if( req.hotelUserObj ) {
+            cancelledBy = req.hotelUserObj._id;
+        }
+        
+        const cancelled = await updateBookingById( bookingId, { status: "cancelled", cancelledBy } );
+        if( !cancelled ) {
+            return errorResponse( res, "Failed to cancel booking !" );
+        }
+
+        return successResponse( res, "Booking Cancelled !" );
+    }
+    catch( err ) {
+        return errorResponse( res, err.message );
+    }
+}
+
+const getBookings = async( req, res ) => {
+    try {
+        let bookings;
+        if( req.adminObj ) {
+            bookings = await getBookingsByClause({});
+        }
+        else if( req.customerObj ) {
+            const userId = req.customerObj._id;
+            bookings = await getBookingsByClause({ user: userId });
+        }
+        else if( req.hotelUserObj ) {
+            const associatedWith = req.hotelUserObj.associatedWith;
+            bookings = await getBookingsByClause({ hotelId: associatedWith });
+        }
+
+        if( !bookings ) {
+            return errorResponse( res, "Failed To Get Bookings !" );
+        }
+
+        return successResponse( res, "Bookings Fetched Successfully !", { ...bookings.toObject() } )
+
+    }
+    catch( err ) {
+        return errorResponse( res, err.message );
+    }
+}
+
+const getBookingDetails = async( req, res ) => {
+    try {
+        const { bookingId } = req.params;
+        const bookingDetails = await getBookingByClause( { _id: bookingId } )
+        if( !bookingDetails ) {
+            return errorResponse( res, "Failed to get booking details !" );
+        }
+
+        return successResponse( res, "Bookings Fetched Successfully !", { ...bookingDetails.toObject() } )
+
+    }
+    catch( err ) {
+        return errorResponse( res, err.message );
+    }
+}
+
 module.exports = {
     bookNow,
-    checkAvailability
+    checkAvailability,
+    cancelBooking,
+    getBookings,
+    getBookingDetails
 }

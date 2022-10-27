@@ -42,10 +42,10 @@ const validateUserByEmailandPassword = async ( userData ) => {
 
 const profileUpdate = async ( id, userObj ) => {
     try {
-        const { error } = UserSchemaValidation.validate( userObj );
-        if( error ) {
-            throw error;
-        }
+        // const { error } = UserSchemaValidation.validate( userObj );
+        // if( error ) {
+        //     throw error;
+        // }
 
         const updatedData = await updateUserById( id, userObj );
         if( !updatedData ) {
