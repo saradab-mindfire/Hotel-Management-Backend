@@ -1,6 +1,6 @@
 const { GraphQLNonNull, GraphQLString, GraphQLObjectType } = require("graphql");
 const customerTypes = require("../Types/customer.types");
-const { customerSignInService, customerSignUpService, userProfileUpdateService, userProfileStatusUpdateService, changePasswordService, parseProfileDetails, getProfile } = require('./../../../src/v1/customer/customer.service');
+const { customerSignInService, customerSignUpService, userProfileUpdateService, changePasswordService, parseCustomerProfileDetails, getCustomerProfile } = require('./../../../src/v1/customer/customer.service');
 const { verifyCustomerAuth } = require('./../../helpers/jwtHelperGraphQL')
 
 const CustomerType = new GraphQLObjectType( customerTypes );
@@ -23,7 +23,7 @@ const customerDetails = async( context ) => {
     return customer;
 }
 
-const updateProfile = async( context, args ) => {
+const customerUpdateProfile = async( context, args ) => {
     const customerObj = await verifyCustomerAuth( context );
     const { firstName, lastName } = args;
     const userObj = {
@@ -31,16 +31,16 @@ const updateProfile = async( context, args ) => {
         lastName
     };
     await userProfileUpdateService( customerObj.userId._id, userObj );
-    const customer = getProfile( customerObj._id );
+    const customer = getCustomerProfile( customerObj._id );
     return customer;
 }
 
-const changePassword = async( context, args ) => {
+const customerChangePassword = async( context, args ) => {
     const customerObj = await verifyCustomerAuth( context );
     const { oldPassword, newPassword } = args;
     const userObj = { oldPassword, newPassword };
     await changePasswordService( customerObj.userId._id, userObj );
-    const customer = parseProfileDetails( customerObj );
+    const customer = parseCustomerProfileDetails( customerObj );
     return customer;
 }
 
@@ -49,6 +49,6 @@ module.exports = {
     customerSignIn,
     customerSignUp,
     customerDetails,
-    updateProfile,
-    changePassword
+    customerUpdateProfile,
+    customerChangePassword
 }

@@ -105,7 +105,7 @@ const changePasswordService = async( userId, userObj ) => {
     }
 }
 
-const getProfile = async( id ) => {
+const getCustomerProfile = async( id ) => {
     try {
         const customerDetails = await getCustomerDetailsById( id );
         if( !customerDetails ) {
@@ -120,7 +120,7 @@ const getProfile = async( id ) => {
     }
 }
 
-const parseProfileDetails = ( data ) => {
+const parseCustomerProfileDetails = ( data ) => {
     const { password, salt, ...userDetails } = data.userId.toObject();
     let { userId: _userId, ...profile } = data.toObject();
     profile['user'] = userDetails;
@@ -133,6 +133,6 @@ module.exports = {
     userProfileUpdateService,
     userProfileStatusUpdateService,
     changePasswordService,
-    getProfile,
-    parseProfileDetails
+    getCustomerProfile,
+    parseCustomerProfileDetails
 }

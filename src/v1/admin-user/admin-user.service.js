@@ -54,51 +54,63 @@ const adminUserSignInService = async ( email, _password ) => {
         }
 
         const { password, salt, ...userDetails } = adminUserDetails.userId.toObject();
-        let { userId: _userId, ...customer } = adminUserDetails.toObject();
+        let { userId: _userId, ...adminUser } = adminUserDetails.toObject();
         
-        customer['user'] = userDetails;
-        customer['token'] = createJWT( customer );
+        adminUser['user'] = userDetails;
+        adminUser['token'] = createJWT( adminUser );
 
-        return customer;
+        return adminUser;
     }
     catch( err ) {
         throw new Error( err.message );
     }
 }
 
-// const changePassword = async( req, res ) => {
-//     try {
-//         const userObj = req.body;
-//         const passwordUpdated = await passwordChange( req.adminObj.userId._id, userObj );
-//         if( !passwordUpdated ) {
-//             return errorResponse( res, "Failed to Update Password !" );
-//         }
+const changeAdminPasswordService = async( adminId, userObj ) => {
+    try {
+        const passwordUpdated = await passwordChange( adminId, userObj );
+        if( !passwordUpdated ) {
+            throw new Error( "Failed to Update Password !" );
+        }
         
-//         return successResponse( res, "Password Updated !" );
-//     }
-//     catch( err ) {
-//         return errorResponse( res, err.message );
-//     }
-// }
+        return passwordUpdated;
+    }
+    catch( err ) {
+        throw new Error( err.message );
+    }
+}
 
-// const getAdminDetails = async( req, res ) => {
-//     try {
-//         const adminId = req.adminObj._id;
-//         const adminDetails = await getAdminUserDetailsById( adminId );
-//         if( !adminDetails ) {
-//             return errorResponse( res, "Failed to get admin details !" );
-//         }
+const getAdminDetailsService = async( adminId ) => {
+    try {
+        const adminDetails = await getAdminUserDetailsById( adminId );
+        if( !adminDetails ) {
+            throw new Error( "Failed to get admin details !" );
+        }
 
-//         return successResponse( res, "Admin Details Fetched !", { ...adminDetails.toObject() } );
-//     }
-//     catch( err ) {
-//         return errorResponse( res, err.message );
-//     }
-// }
+        const { password, salt, ...userDetails } = adminDetails.userId.toObject();
+        let { userId: _userId, ...adminUser } = adminDetails.toObject();
+        
+        adminUser['user'] = userDetails;
+        adminUser['token'] = createJWT( adminUser );
+
+        return adminUser;
+    }
+    catch( err ) {
+        throw new Error( err.message );
+    }
+}
+
+const parseAdminProfileDetails = ( data ) => {
+    const { password, salt, ...adminDetails } = data.userId.toObject();
+    let { userId: _userId, ...profile } = data.toObject();
+    profile['user'] = adminDetails;
+    return profile;
+}
 
 module.exports = {
     adminUserSignUpService,
     adminUserSignInService,
-    // changePassword,
-    // getAdminDetails
+    changeAdminPasswordService,
+    getAdminDetailsService,
+    parseAdminProfileDetails
 }

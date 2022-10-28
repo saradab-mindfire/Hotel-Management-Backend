@@ -1,4 +1,4 @@
-const { createHotelUser, disableHotelUser, getAllHotelUsers, getHotelUserDetails, getHotelUserDetailsById, updateHotelUser } = require('./hotel-user.dao');
+const { createHotelUser, disableHotelUser, getHotelUserDetails, getHotelUserDetailsById, updateHotelUser } = require('./hotel-user.dao');
 const { addNewUser, validateUserByEmailandPassword, profileUpdate, profileStatusUpdate, passwordChange } = require('./../user/user.service');
 const { errorResponse, successResponse } = require('./../../../core/helpers/responseHandler');
 const { createJWT } = require('./../../../core/helpers/authHelper');
