@@ -42,7 +42,7 @@ const HotelSchema = new mongoose.Schema(
         createdBy: {
             type: ObjectId,
             required: true,
-            ref: 'Users'
+            ref: 'HotelUser'
         },
     },
     { 

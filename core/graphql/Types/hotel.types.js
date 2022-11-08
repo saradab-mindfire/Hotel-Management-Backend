@@ -1,4 +1,5 @@
 const { GraphQLNonNull, GraphQLString, GraphQLObjectType, GraphQLInt } = require("graphql");
+const { HotelUserType } = require("../Schemas/hotel-user.graphql");
 
 module.exports = {
     name: "Hotel",
@@ -13,6 +14,9 @@ module.exports = {
         imageURL: { type: GraphQLString },
         checkInTime: { type: new GraphQLNonNull( GraphQLString ) },
         checkOutTime: { type: new GraphQLNonNull( GraphQLString ) },
-        createdBy: { type: new GraphQLNonNull( GraphQLString ) }
+        createdBy: { type: new GraphQLNonNull( GraphQLString ) },
+        createdByDetails: {
+            type: HotelUserType
+        }
     })
 }

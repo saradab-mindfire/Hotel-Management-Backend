@@ -17,7 +17,7 @@ const getHotelsByClause = ( hotelClauses ) => {
 }
 
 const getHotelById = ( id ) => {
-    return Hotel.findById( id );
+    return Hotel.findById( id ).populate('createdBy');
 }
 
 const getHotelByClause = ( clauses ) => {

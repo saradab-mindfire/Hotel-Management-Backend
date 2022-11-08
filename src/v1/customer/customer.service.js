@@ -22,6 +22,7 @@ const customerSignUpService = async( userData ) => {
         let { userId: _userId, ...customer } = customerAdded.toObject();
 
         customer['user'] = userDetails;
+        customer['userId'] = _userId;
         customer['token'] = createJWT( userDetails );
 
         return customer;
@@ -52,6 +53,7 @@ const customerSignInService = async( email, _password ) => {
         let { userId: _userId, ...customer } = customerDetails.toObject();
         
         customer['user'] = userDetails;
+        customer['userId'] = _userId._id;
         customer['token'] = createJWT( userDetails );
 
         return customer;

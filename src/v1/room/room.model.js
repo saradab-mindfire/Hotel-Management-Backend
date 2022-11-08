@@ -6,7 +6,7 @@ const RoomSchema = new mongoose.Schema(
         hotelId: {
             type: ObjectId,
             required: true,
-            ref: 'Users'
+            ref: 'Hotel'
         },
         displayName: {
             type: String,
