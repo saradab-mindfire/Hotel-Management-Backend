@@ -129,6 +129,20 @@ const parseCustomerProfileDetails = ( data ) => {
     return profile;
 }
 
+const getCustomers = async() => {
+    try {
+        const customers = await getAllCustomers();
+        if( !customers ) {
+            throw new Error( "Failed to get customers !" );
+        }
+
+        return customers;
+    }
+    catch( err ) {
+        throw new Error( err.message );
+    }
+}
+
 module.exports = {
     customerSignUpService,
     customerSignInService,
@@ -136,5 +150,6 @@ module.exports = {
     userProfileStatusUpdateService,
     changePasswordService,
     getCustomerProfile,
-    parseCustomerProfileDetails
+    parseCustomerProfileDetails,
+    getCustomers
 }

@@ -1,7 +1,7 @@
 const { GraphQLNonNull, GraphQLString, GraphQLObjectType } = require("graphql");
 const customerTypes = require("../Types/customer.types");
-const { customerSignInService, customerSignUpService, userProfileUpdateService, changePasswordService, parseCustomerProfileDetails, getCustomerProfile } = require('./../../../src/v1/customer/customer.service');
-const { verifyCustomerAuth } = require('./../../helpers/jwtHelperGraphQL')
+const { customerSignInService, customerSignUpService, userProfileUpdateService, changePasswordService, parseCustomerProfileDetails, getCustomerProfile, getCustomers } = require('./../../../src/v1/customer/customer.service');
+const { verifyCustomerAuth, verifyAdminAuth } = require('./../../helpers/jwtHelperGraphQL')
 
 const CustomerType = new GraphQLObjectType( customerTypes );
 
@@ -44,11 +44,19 @@ const customerChangePassword = async( context, args ) => {
     return customer;
 }
 
+const getCustomerList = async( context, args ) => {
+    const adminObj = await verifyAdminAuth( context );
+    let customers = await getCustomers();
+    customers = customers.map( el => parseCustomerProfileDetails(el) )
+    return customers;
+}
+
 module.exports = {
     CustomerType,
     customerSignIn,
     customerSignUp,
     customerDetails,
     customerUpdateProfile,
-    customerChangePassword
+    customerChangePassword,
+    getCustomerList
 }

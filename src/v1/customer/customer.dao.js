@@ -21,7 +21,7 @@ const getCustomerDetails = async ( customerClauses ) => {
 }
 
 const getAllCustomers = async ( customerClauses ) => {
-    return Customer.find( customerClauses );
+    return Customer.find( customerClauses ).populate('userId');
 }
 
 module.exports = {

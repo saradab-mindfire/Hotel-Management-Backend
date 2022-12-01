@@ -1,6 +1,6 @@
-const { GraphQLObjectType, GraphQLNonNull, GraphQLString } = require('graphql');
+const { GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLList } = require('graphql');
 const { AdminUserType, adminUserDetails } = require('./Schemas/admin-user.graphql');
-const { CustomerType, customerDetails } = require('./Schemas/customer.graphql');
+const { CustomerType, customerDetails, getCustomerList } = require('./Schemas/customer.graphql');
 const { HotelUserType, hotelUserUserDetails } = require('./Schemas/hotel-user.graphql');
 const { HotelType, createHotel, getHotelUserDetails, updateHotel, updateHotelStatus } = require('./Schemas/hotel.graphql');
 
@@ -14,6 +14,13 @@ const RootQueryType = new GraphQLObjectType({
             description: "Get Customer Details",
             resolve: ( parent, args, context ) => {
                 return customerDetails( context )
+            }
+        },
+        customers: {
+            type: new GraphQLList( CustomerType ),
+            description: "Get Customer List",
+            resolve: ( parent, args, context ) => {
+                return getCustomerList( context, args );
             }
         },
         // Admin Functions
